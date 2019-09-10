@@ -3,4 +3,6 @@ out
 src
 
 *target
+
+*.class
 *.iml
