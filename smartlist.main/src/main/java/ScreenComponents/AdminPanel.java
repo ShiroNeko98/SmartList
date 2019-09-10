@@ -4,12 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AdminPanel extends JPanel {
-
     private Screen screen;
-    private JPanel operatingPanel;
+    JPanel operatingPanel;
     private SelectCategoryImpl selectCategory;
     private SelectFileButtonImpl selectFileButton;
-    private UploadButtonImpl uploadButton;
+    UploadButtonImpl uploadButton;
 
     AdminPanel(Screen screen) {
         this.screen = screen;
@@ -21,15 +20,20 @@ public class AdminPanel extends JPanel {
 
     private void initComponents() {
         FlowLayout flowLayout = new FlowLayout();
-        flowLayout.setVgap((int) (screen.getHeight() * 0.1));
+        flowLayout.setVgap((int) (screen.getHeight() * 0.1));   // TODO gap too big
         operatingPanel = new JPanel(flowLayout);
         operatingPanel.setBackground(Color.CYAN);
 
-        selectCategory = screen.getSelectCategory();
-        selectFileButton = screen.getSelectFile();
-
+        /* select category */
+        selectCategory = new SelectCategoryImpl(this);
+        selectCategory.setAdminPanel(this);
         operatingPanel.add(selectCategory);
+
+        /* select file */
+        selectFileButton = new SelectFileButtonImpl(this);
         operatingPanel.add(selectFileButton);
+
+        uploadButton = new UploadButtonImpl(this);
 
         add(operatingPanel, "North");
 
@@ -42,16 +46,18 @@ public class AdminPanel extends JPanel {
 
     public SelectFileButtonImpl getSelectFileButton() { return selectFileButton; }
 
-    public void setSelectFileButton(String selectedFilePath) {
-        int buttonHeight = selectFileButton.getHeight();
-        selectFileButton.setPreferredSize(new Dimension((int) (screen.getWidth() * 0.6), buttonHeight));
+    public void uploadFile() {
+        String selectedCategory = selectCategory.getSelectedCategory();
+        String path = selectFileButton.getSelectedFilePath();
 
         // TODO the file name should be seen at all time
-        selectFileButton.setText(selectedFilePath);
+        selectFileButton.setText(path);
+        int buttonHeight = selectCategory.getHeight();
+        selectFileButton.setPreferredSize(new Dimension((int) (screen.getWidth() * 0.6), buttonHeight));
 
-        uploadButton = new UploadButtonImpl();
-        uploadButton.setSelectCategory(selectCategory.getSelectedItem().toString());
-        uploadButton.setPath(selectedFilePath);
+        uploadButton.setSelectCategory(selectedCategory);
+        uploadButton.setPath(path);
         operatingPanel.add(uploadButton);
     }
+
 }

@@ -20,16 +20,21 @@ import java.util.logging.Logger;
 public class UploadButtonImpl extends JButton implements ActionListener {
     private final Logger LOG = MyLogger.getLogger(UploadButtonImpl.class.getName());
 
+    private AdminPanel adminPanel;
     private String selectedCategory;
     private String path;
 
-    UploadButtonImpl() {
+    UploadButtonImpl(AdminPanel adminPanel) {
+        this.adminPanel = adminPanel;
+
         setText("UPLOAD");
         addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent event) {
+        adminPanel.uploadButton.setVisible(false);
+
         long timerStart = System.currentTimeMillis();
 
         Iterator<Row> rowIterator = null;

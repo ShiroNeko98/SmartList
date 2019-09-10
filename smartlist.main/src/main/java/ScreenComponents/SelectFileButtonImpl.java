@@ -5,12 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SelectFileButtonImpl extends JButton implements ActionListener {
-    private Screen screen;
+    private AdminPanel adminPanel;
     private String selectedFilePath;
 
-    SelectFileButtonImpl(Screen screen) {
-        this.screen = screen;
+    SelectFileButtonImpl(AdminPanel adminPanel) {
+        this.adminPanel = adminPanel;
 
+        setHorizontalTextPosition(RIGHT);
         setText("SELECT FILE");
         addActionListener(this);
     }
@@ -22,7 +23,8 @@ public class SelectFileButtonImpl extends JButton implements ActionListener {
 
         if (r == JFileChooser.APPROVE_OPTION) {
             selectedFilePath = fileChooser.getSelectedFile().getAbsolutePath();
-            screen.getAdminPanel().setSelectFileButton(selectedFilePath);
+            adminPanel.uploadButton.setVisible(true);
+            adminPanel.uploadFile();
         }
     }
 
