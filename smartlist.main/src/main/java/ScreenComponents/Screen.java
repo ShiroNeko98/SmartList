@@ -37,8 +37,8 @@ public class Screen extends JFrame {
 
     private void initComponents() {
         selectCategory = new SelectCategoryImpl();
-        selectFile = new SelectFileButtonImpl();
-        uploadButton = new UploadButtonImpl(selectCategory);
+        selectFile = new SelectFileButtonImpl(this);
+        //  uploadButton = new UploadButtonImpl(selectCategory);
 
         adminPanel = new AdminPanel(this);
         userPanel = new UserPanel(this);

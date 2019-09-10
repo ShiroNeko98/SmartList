@@ -1,9 +1,36 @@
 package ScreenComponents;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class SelectFileButtonImpl extends JButton {
-    SelectFileButtonImpl() {
+public class SelectFileButtonImpl extends JButton implements ActionListener {
+    private Screen screen;
+    private String selectedFilePath;
+
+    SelectFileButtonImpl(Screen screen) {
+        this.screen = screen;
+
         setText("SELECT FILE");
+        addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JFileChooser fileChooser = new JFileChooser();
+        int r = fileChooser.showDialog(null, "SELECT");
+
+        if (r == JFileChooser.APPROVE_OPTION) {
+            selectedFilePath = fileChooser.getSelectedFile().getAbsolutePath();
+            screen.getAdminPanel().setSelectFileButton(selectedFilePath);
+        }
+    }
+
+    public String getSelectedFilePath() {
+        return selectedFilePath;
+    }
+
+    public void setSelectedFilePath(String selectedFilePath) {
+        this.selectedFilePath = selectedFilePath;
     }
 }

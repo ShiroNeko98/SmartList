@@ -1,10 +1,5 @@
 package ScreenComponents;
 
-import ScreenComponents.Screen;
-import ScreenComponents.SelectCategoryImpl;
-import ScreenComponents.SelectFileButtonImpl;
-import ScreenComponents.UploadButtonImpl;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -32,20 +27,31 @@ public class AdminPanel extends JPanel {
 
         selectCategory = screen.getSelectCategory();
         selectFileButton = screen.getSelectFile();
-        uploadButton = screen.getUploadButton();
 
         operatingPanel.add(selectCategory);
         operatingPanel.add(selectFileButton);
-        operatingPanel.add(uploadButton);
 
         add(operatingPanel, "North");
-
-        System.out.println("hi wasdfsdf");
 
         /* TODO show Log-Messages */
         JTextField textField = new JTextField("hi");
         textField.setEditable(false);
         textField.setBackground(Color.RED);
         add(textField);
+    }
+
+    public SelectFileButtonImpl getSelectFileButton() { return selectFileButton; }
+
+    public void setSelectFileButton(String selectedFilePath) {
+        int buttonHeight = selectFileButton.getHeight();
+        selectFileButton.setPreferredSize(new Dimension((int) (screen.getWidth() * 0.6), buttonHeight));
+
+        // TODO the file name should be seen at all time
+        selectFileButton.setText(selectedFilePath);
+
+        uploadButton = new UploadButtonImpl();
+        uploadButton.setSelectCategory(selectCategory.getSelectedItem().toString());
+        uploadButton.setPath(selectedFilePath);
+        operatingPanel.add(uploadButton);
     }
 }

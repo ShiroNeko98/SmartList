@@ -9,34 +9,32 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
-public class UploadButtonImpl extends JButton {
+public class UploadButtonImpl extends JButton implements ActionListener {
     private final Logger LOG = MyLogger.getLogger(UploadButtonImpl.class.getName());
-    private SelectCategoryImpl selectCategory;
 
-    UploadButtonImpl(SelectCategoryImpl selectCategory) {
+    private String selectedCategory;
+    private String path;
+
+    UploadButtonImpl() {
         setText("UPLOAD");
-
-        setVisible(true); //TODO Default sollte false sein, erst true wenn man Admin ist
-
-        addActionListener(e -> {
-            actionPerformed(selectCategory.getSelectedItem().toString());
-        });
-
-        this.selectCategory = selectCategory;
+        addActionListener(this);
     }
 
-    public void actionPerformed(String category) {
+    @Override
+    public void actionPerformed(ActionEvent event) {
         long timerStart = System.currentTimeMillis();
 
         Iterator<Row> rowIterator = null;
 
-        File file = new File("smartlist.main/src/main/resources/InsertItems.xlsx");   //TODO admin user wählt file aus
+        File file = new File(path);   //TODO admin user wählt file aus
         try (FileInputStream fis = new FileInputStream(file);
              XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
             XSSFSheet sheet = workbook.getSheetAt(0);
@@ -45,7 +43,7 @@ public class UploadButtonImpl extends JButton {
             e.printStackTrace();
         }
 
-        LOG.info("start importing items from " + file.getAbsolutePath() + " to " + category);
+        LOG.info("start importing items from " + file.getAbsolutePath() + " to " + selectedCategory);
 
         long rowCounter = 0;
         while (rowIterator.hasNext()) {
@@ -55,7 +53,7 @@ public class UploadButtonImpl extends JButton {
 
             if (!itemName.toString().equals("ITEM_NAME")) {
                 rowCounter++;
-                Queries.insertItem(category, itemName.toString(), Double.valueOf(itemPrice.toString()));
+                Queries.insertItem(selectedCategory, itemName.toString(), Double.valueOf(itemPrice.toString()));
             }
         }
 
@@ -73,4 +71,12 @@ public class UploadButtonImpl extends JButton {
     void setUploadPanelVisible(boolean value) {
         setVisible(value);
     }
+
+    public String getSelectCategory() { return selectedCategory; }
+
+    public void setSelectCategory(String selectCategory) { this.selectedCategory = selectCategory; }
+
+    public String getPath() { return path; }
+
+    public void setPath(String path) { this.path = path; }
 }
