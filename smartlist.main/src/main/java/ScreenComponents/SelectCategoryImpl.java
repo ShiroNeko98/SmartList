@@ -35,7 +35,6 @@ public class SelectCategoryImpl extends JComboBox implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         selectedCategory = getSelectedItem().toString();
-        System.out.println(selectedCategory);
         adminPanel.uploadButton.setVisible(true);
         adminPanel.uploadFile();
     }

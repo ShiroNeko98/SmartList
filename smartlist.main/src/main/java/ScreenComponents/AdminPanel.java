@@ -30,7 +30,7 @@ public class AdminPanel extends JPanel {
         operatingPanel.add(selectCategory);
 
         /* select file */
-        selectFileButton = new SelectFileButtonImpl(this);
+        selectFileButton = new SelectFileButtonImpl(this, screen);
         operatingPanel.add(selectFileButton);
 
         uploadButton = new UploadButtonImpl(this);
@@ -47,17 +47,8 @@ public class AdminPanel extends JPanel {
     public SelectFileButtonImpl getSelectFileButton() { return selectFileButton; }
 
     public void uploadFile() {
-        String selectedCategory = selectCategory.getSelectedCategory();
-        String path = selectFileButton.getSelectedFilePath();
-
-        // TODO the file name should be seen at all time
-        selectFileButton.setText(path);
-        int buttonHeight = selectCategory.getHeight();
-        selectFileButton.setPreferredSize(new Dimension((int) (screen.getWidth() * 0.6), buttonHeight));
-
-        uploadButton.setSelectCategory(selectedCategory);
-        uploadButton.setPath(path);
+        uploadButton.setSelectCategory(selectCategory.getSelectedCategory());
+        uploadButton.setPath(selectFileButton.getSelectedFilePath());
         operatingPanel.add(uploadButton);
     }
-
 }
