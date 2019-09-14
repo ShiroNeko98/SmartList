@@ -33,13 +33,13 @@ public class UploadButtonImpl extends JButton implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        adminPanel.uploadButton.setVisible(false);
-
         long timerStart = System.currentTimeMillis();
+
+        adminPanel.getUploadButton().setVisible(false);
 
         Iterator<Row> rowIterator = null;
 
-        File file = new File(path);   //TODO admin user wählt file aus
+        File file = new File(path);
         try (FileInputStream fis = new FileInputStream(file);
              XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
             XSSFSheet sheet = workbook.getSheetAt(0);
@@ -48,17 +48,24 @@ public class UploadButtonImpl extends JButton implements ActionListener {
             e.printStackTrace();
         }
 
-        LOG.info("start importing items from " + file.getAbsolutePath() + " to " + selectedCategory);
+        /* importing items from file to database */
+        TextFieldImpl textField = adminPanel.getTextField();
+        StringBuilder str = new StringBuilder("start importing items from ");
+        str.append(file.getAbsolutePath()).append(" to ").append(selectedCategory);
+        textField.append(str.toString() + "\n");
+        LOG.info(str.toString());
 
         long rowCounter = 0;
-        while (rowIterator.hasNext()) {
+        while (rowIterator != null && rowIterator.hasNext()) {
             Row row = rowIterator.next();
             Cell itemName = row.getCell(0);
             Cell itemPrice = row.getCell(1);
 
-            if (!itemName.toString().equals("ITEM_NAME")) {
+            String itemNameStr = itemName.toString();
+            if (!itemNameStr.equals("ITEM_NAME")) {
                 rowCounter++;
-                Queries.insertItem(selectedCategory, itemName.toString(), Double.valueOf(itemPrice.toString()));
+                Queries.setTextField(textField);
+                Queries.insertItem(selectedCategory, itemNameStr, Double.valueOf(itemPrice.toString()));
             }
         }
 

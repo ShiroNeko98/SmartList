@@ -26,7 +26,7 @@ public class MyFormatter extends Formatter {
 
         builder.append("[").append(df.format(new Date(record.getMillis()))).append("]");    // timestamp
         builder.append("[").append(record.getSourceClassName()).append(".");    // class path
-        builder.append(record.getSourceMethodName()).append("] - ");    // methode
+        builder.append(record.getSourceMethodName()).append("] - ");    // method
         builder.append(msg);    // message
         builder.append("\n");
         return builder.toString();

@@ -2,6 +2,7 @@ package SQL;
 
 import Logger.MyLogger;
 
+import javax.swing.*;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,8 @@ import java.util.logging.Logger;
  * All SQL-Queries
  **************************************************/
 public class Queries {
+
+    private static JTextArea textField;
 
     public static long failCounter;
     public static Statement query;
@@ -30,6 +33,11 @@ public class Queries {
             e.printStackTrace();
         }
     }
+
+    public static void setTextField(JTextArea textField) {
+        Queries.textField = textField;
+    }
+
 
     /**
      * @return all categories
@@ -175,8 +183,10 @@ public class Queries {
             query.executeUpdate(
                     "insert into items (category_name, name, price)" +
                     "values ('" + category + "', '" + item + "'," + "'" + price + "')");
+            textField.append("Inserting into: " + category + " " + item + " " + price.toString() + "\n");
         } catch (SQLException e) {
             if (e.getMessage().contains("Duplicate entry")) {
+                textField.append(e.getMessage() + "\n");
                 LOG.info("ERROR: " + e.getMessage());
                 failCounter++;
             } else { e.printStackTrace(); }

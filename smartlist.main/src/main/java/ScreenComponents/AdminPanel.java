@@ -8,7 +8,8 @@ public class AdminPanel extends JPanel {
     JPanel operatingPanel;
     private SelectCategoryImpl selectCategory;
     private SelectFileButtonImpl selectFileButton;
-    UploadButtonImpl uploadButton;
+    private UploadButtonImpl uploadButton;
+    public static TextFieldImpl textField;
 
     AdminPanel(Screen screen) {
         this.screen = screen;
@@ -20,7 +21,7 @@ public class AdminPanel extends JPanel {
 
     private void initComponents() {
         FlowLayout flowLayout = new FlowLayout();
-        flowLayout.setVgap((int) (screen.getHeight() * 0.1));   // TODO gap too big
+        flowLayout.setVgap((int) (screen.getHeight() * 0.05));
         operatingPanel = new JPanel(flowLayout);
         operatingPanel.setBackground(Color.CYAN);
 
@@ -38,10 +39,9 @@ public class AdminPanel extends JPanel {
         add(operatingPanel, "North");
 
         /* TODO show Log-Messages */
-        JTextField textField = new JTextField("hi");
-        textField.setEditable(false);
-        textField.setBackground(Color.RED);
-        add(textField);
+        textField = new TextFieldImpl();
+        JScrollPane scrollPane = new JScrollPane(textField);
+        add(scrollPane);
     }
 
     public SelectFileButtonImpl getSelectFileButton() { return selectFileButton; }
@@ -51,4 +51,12 @@ public class AdminPanel extends JPanel {
         uploadButton.setPath(selectFileButton.getSelectedFilePath());
         operatingPanel.add(uploadButton);
     }
+
+    public UploadButtonImpl getUploadButton() { return uploadButton; }
+
+    public void setUploadButton(UploadButtonImpl uploadButton) { this.uploadButton = uploadButton; }
+
+    public TextFieldImpl getTextField() { return textField; }
+
+    public void setTextField(TextFieldImpl textField) { this.textField = textField; }
 }

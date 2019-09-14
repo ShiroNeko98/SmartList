@@ -28,7 +28,7 @@ public class SelectFileButtonImpl extends JButton implements ActionListener {
         if (r == JFileChooser.APPROVE_OPTION) {
             selectedFilePath = fileChooser.getSelectedFile().getAbsolutePath();
             setText(selectedFilePath);
-            adminPanel.uploadButton.setVisible(true);
+            adminPanel.getUploadButton().setVisible(true);
             adminPanel.uploadFile();
 
             /* cut of right parts of too long file-paths in order to show file name */
