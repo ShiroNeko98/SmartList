@@ -35,11 +35,13 @@ public class UploadButtonImpl extends JButton implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         long timerStart = System.currentTimeMillis();
 
+        adminPanel.getSelectFileButton().setText("SELECT  FILE");
         adminPanel.getUploadButton().setVisible(false);
 
         Iterator<Row> rowIterator = null;
 
         File file = new File(path);
+        adminPanel.getSelectFileButton().getFileChooser().setCurrentDirectory(file);    // save directory for next time
         try (FileInputStream fis = new FileInputStream(file);
              XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
             XSSFSheet sheet = workbook.getSheetAt(0);

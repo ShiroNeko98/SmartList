@@ -9,6 +9,7 @@ public class SelectFileButtonImpl extends JButton implements ActionListener {
     private AdminPanel adminPanel;
     private Screen screen;
     private String selectedFilePath;
+    private JFileChooser fileChooser;
 
     SelectFileButtonImpl(AdminPanel adminPanel, Screen screen) {
         this.adminPanel = adminPanel;
@@ -17,12 +18,12 @@ public class SelectFileButtonImpl extends JButton implements ActionListener {
         setHorizontalTextPosition(RIGHT);
         setText("SELECT  FILE");
         setPreferredSize(new Dimension((int) (screen.getWidth() * 0.6), 25));
+        fileChooser = new JFileChooser();
         addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JFileChooser fileChooser = new JFileChooser();
         int r = fileChooser.showDialog(null, "SELECT");
 
         if (r == JFileChooser.APPROVE_OPTION) {
@@ -49,4 +50,8 @@ public class SelectFileButtonImpl extends JButton implements ActionListener {
     public void setSelectedFilePath(String selectedFilePath) {
         this.selectedFilePath = selectedFilePath;
     }
+
+    public JFileChooser getFileChooser() { return fileChooser; }
+
+    public void setFileChooser(JFileChooser fileChooser) { this.fileChooser = fileChooser; }
 }
