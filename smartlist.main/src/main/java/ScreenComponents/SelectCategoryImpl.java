@@ -1,6 +1,8 @@
 package ScreenComponents;
 
 import SQL.Queries;
+import ScreenComponents.Admin.AdminPanel;
+import ScreenComponents.User.UserPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -8,11 +10,10 @@ import java.awt.event.ActionListener;
 
 public class SelectCategoryImpl extends JComboBox implements ActionListener {
     private AdminPanel adminPanel;
+    private UserPanel userPanel;
     private String selectedCategory;
 
-    public SelectCategoryImpl(AdminPanel adminPanel) {
-        this.adminPanel = adminPanel;
-
+    public SelectCategoryImpl() {
         DefaultListCellRenderer dlcr = new DefaultListCellRenderer();
         dlcr.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
         setRenderer(dlcr);
@@ -34,9 +35,14 @@ public class SelectCategoryImpl extends JComboBox implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        selectedCategory = getSelectedItem().toString();
-        adminPanel.getUploadButton().setVisible(true);
-        adminPanel.uploadFile();
+        if (userPanel != null) {
+
+
+        } else {
+            selectedCategory = getSelectedItem().toString();
+            adminPanel.getUploadButton().setVisible(true);
+            adminPanel.uploadFile();
+        }
     }
 
     public String getSelectedCategory() { return selectedCategory; }
@@ -44,4 +50,12 @@ public class SelectCategoryImpl extends JComboBox implements ActionListener {
     public void setSelectedCategory(String selectedCategory) { this.selectedCategory = selectedCategory; }
 
     public void setAdminPanel(AdminPanel adminPanel) { this.adminPanel = adminPanel; }
+
+    public void setUserPanel(UserPanel userPanel) {
+        this.userPanel = userPanel;
+
+        selectedCategory = " ";
+        addItem(selectedCategory);
+        setSelectedCategory(selectedCategory);
+    }
 }

@@ -1,5 +1,8 @@
 package ScreenComponents;
 
+import ScreenComponents.Admin.AdminPanel;
+import ScreenComponents.User.UserPanel;
+
 import javax.swing.*;
 import java.awt.*;
 
