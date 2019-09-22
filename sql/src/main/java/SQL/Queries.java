@@ -221,8 +221,31 @@ public class Queries {
     public static void deleteItem(String item) {
         try {
             query.executeUpdate("delete from items where name = '" + item + "';");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    /**
+     * Remove the item from the items-database.
+     */
+    public static Double findPriceForItem(String category, String item) {
+        Double price = 0.0;
+        try {
+            ResultSet rs = query.executeQuery("select price from items where Category_Name = '" + category +
+                                              "' and name = '" + item + "';");
+            if (rs.next()) { price = Double.valueOf(rs.getString("price")); }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return price;
+    }
+
+    /**
+     * Remove the item from the items-database.
+     */
+    public static Object[] getAllItemNameByCategory(String category) {
+        List<String> itemName = new ArrayList<>();
+        try {
+            ResultSet rs = query.executeQuery("select name from items where Category_Name = '" + category + "';");
+            while (rs.next()) { itemName.add(rs.getString("name")); }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return itemName.toArray();
     }
 }

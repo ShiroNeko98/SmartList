@@ -9,7 +9,6 @@ public class MenuBar {
 
     Screen screen;
 
-
     MenuBar(Screen screen) {
         this.screen = screen;
         initPanels();
@@ -23,8 +22,8 @@ public class MenuBar {
         final CardLayout cardLayout = new CardLayout();
         final JPanel cardPanel = new JPanel(cardLayout);
 
+        cardPanel.add(screen.getUserPanel(), "USER");   // TODO switch back
         cardPanel.add(screen.getAdminPanel(), "ADMIN");
-        cardPanel.add(screen.getUserPanel(), "USER");
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
@@ -38,7 +37,7 @@ public class MenuBar {
         resetDB.addActionListener(e -> {    // TODO delete this button, when project is finished
             InitTables.main(null);
         });
-        System.out.println();
+
         adminButton.addActionListener(e -> {
             cardLayout.show(cardPanel, "ADMIN");
         });

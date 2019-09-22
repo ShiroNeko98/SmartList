@@ -37,7 +37,6 @@ public class SelectCategoryImpl extends JComboBox implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (userPanel != null) {
 
-
         } else {
             selectedCategory = getSelectedItem().toString();
             adminPanel.getUploadButton().setVisible(true);
@@ -54,8 +53,10 @@ public class SelectCategoryImpl extends JComboBox implements ActionListener {
     public void setUserPanel(UserPanel userPanel) {
         this.userPanel = userPanel;
 
-        selectedCategory = " ";
-        addItem(selectedCategory);
-        setSelectedCategory(selectedCategory);
+     //   selectedCategory = " ";
+     //   addItem(selectedCategory);
+     //   setSelectedCategory(selectedCategory);
     }
+
+    public Object[] getAllItemNameByCategory() { return Queries.getAllItemNameByCategory(getSelectedCategory()); }
 }

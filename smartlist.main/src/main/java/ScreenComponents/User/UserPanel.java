@@ -9,9 +9,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UserPanel extends JPanel {
-    Screen screen;
-    JPanel operatingPanel;
+    private Screen screen;
+    private JPanel operatingPanel;
     private SelectCategoryImpl selectCategory;
+    private JComboBox itemList;
+    private QuantityField quantityField;
+    private AddButton addButton;
+
+    private JScrollPane scrollPane;
+    private UserViewItemPanel userViewItemPanel;
 
     public UserPanel(Screen screen) {
         this.screen = screen;
@@ -33,15 +39,43 @@ public class UserPanel extends JPanel {
         operatingPanel.add(selectCategory);
 
         /* */
-        JComboBox comboBox = new JComboBox();
-        Object[] elements = new Object[]{"Cat", "Dog", "Lion", "Mouse"};
-        AutoCompleteSupport.install(comboBox, GlazedLists.eventListOf(elements));
-        operatingPanel.add(comboBox);
+        itemList = new JComboBox();
+        AutoCompleteSupport.install(itemList, GlazedLists.eventListOf(selectCategory.getAllItemNameByCategory()));
+        operatingPanel.add(itemList);
+
+        /* quantity field */
+        quantityField = new QuantityField();
+        operatingPanel.add(quantityField);
+
+        /* add button */
+        addButton = new AddButton(this);
+        operatingPanel.add(addButton);
 
         add(operatingPanel, "North");
 
+        scrollPane = new JScrollPane();
+        userViewItemPanel = new UserViewItemPanel();
+
+        add(scrollPane);
+
     }
 
+    public void update(DisplayAddedItem displayAddedItem) {
+        userViewItemPanel.addItemPanel(displayAddedItem);
+
+        JViewport viewport = scrollPane.getViewport();
+        try {
+            viewport.getComponent(0);
+            viewport.remove(0);
+        } catch (IndexOutOfBoundsException e) {}
+        viewport.add(userViewItemPanel);
+    }
+
+    public String getSelectCategory() { return selectCategory.getSelectedItem().toString(); }
+
+    public String getSelectedItem() { return itemList.getSelectedItem().toString(); }
+
+    public String getQuantity() { return quantityField.getText(); }
 
     void setVisibility(boolean value) {
         setVisible(value);
