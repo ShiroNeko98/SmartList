@@ -28,6 +28,8 @@ public class Screen extends JFrame {
 
         setResizable(false);
 
+        System.out.println("hi");
+
         initComponents();
     }
 

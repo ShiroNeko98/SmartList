@@ -12,6 +12,5 @@ public class PlusButton extends JButton {
         Image img = icon.getImage();
         Image newImg = img.getScaledInstance(DisplayAddedItem.buttonWidth, DisplayAddedItem.buttonHeight, Image.SCALE_SMOOTH);
         setIcon(new ImageIcon(newImg));
-
     }
 }
